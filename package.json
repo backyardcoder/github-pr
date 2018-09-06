@@ -1,0 +1,47 @@
+{
+  "name": "github-notification",
+  "version": "1.0.0",
+  "description": "A chrome extension to pull important github notifications",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack --config ./webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/backyardcoder/github-pr.git"
+  },
+  "keywords": [
+    "github-plugins",
+    "chrome-extension",
+    "github-notificataions",
+    "chrome-github-notifications"
+  ],
+  "author": "backyardcoder",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/backyardcoder/github-pr/issues"
+  },
+  "homepage": "https://github.com/backyardcoder/github-pr#readme",
+  "dependencies": {
+    "react": "^16.4.2",
+    "react-dom": "^16.4.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "babel-loader": "^8.0.0",
+    "clean-webpack-plugin": "^0.1.19",
+    "copy-webpack-plugin": "^4.5.2",
+    "css-loader": "^1.0.0",
+    "mini-css-extract-plugin": "^0.4.2",
+    "node-sass": "^4.9.3",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "sass-loader": "^7.1.0",
+    "uglifyjs-webpack-plugin": "^1.3.0",
+    "webpack": "^4.17.1",
+    "webpack-cli": "^3.1.0"
+  }
+}
