@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-		"build": "webpack --config ./webpack",
-		"develop": "webpack --config ./webpack --watch"
+    "build": "webpack --config ./webpack",
+    "develop": "webpack --config ./webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,8 @@
   },
   "homepage": "https://github.com/backyardcoder/github-pr#readme",
   "dependencies": {
+    "@material-ui/core": "^3.0.2",
+    "@material-ui/icons": "^3.0.1",
     "normalize.css": "^8.0.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"
