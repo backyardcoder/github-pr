@@ -6,8 +6,10 @@
 	"description": "Extension for getting important Github notification",
 	"homepage_url": "https://github.com/backyardcoder/github-pr",
 	"background": {
-		"persistent": false,
-		"scripts": ["/js/background.js"]
+		"scripts": [
+			"/js/background.js"
+		],
+		"persistent": false
 	},
 	"permissions": [
 		"storage"
