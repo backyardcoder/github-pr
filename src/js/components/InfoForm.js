@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+
+import Storage from "../data/Storage";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
 import Button from "@material-ui/core/Button";
@@ -36,17 +38,17 @@ class InfoForm extends Component {
 		this.setState({
 			isSaving: true
 		});
-
 		const { accessToken, url } = this.state;
-		chrome.storage.sync.set(
-			{
-				gh_url: url,
-				gh_access_token: accessToken
-			},
-			() => {
-				this.setState({ isSaving: false, infoSaved: true });
-			}
-		);
+		Storage.saveTokenInfo({ url, accessToken }, () => {
+			this.setState({ isSaving: false, infoSaved: true });
+			chrome.runtime.sendMessage({
+				type: "info_saved",
+				data: {
+					url,
+					accessToken
+				}
+			});
+		});
 	}
 
 	isRequiredInfoPresent() {
