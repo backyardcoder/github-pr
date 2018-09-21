@@ -23,6 +23,7 @@ class Url extends Component {
 			url,
 			classes,
 			urlType,
+			isUrlInvalid,
 			handleUrlChange,
 			handleUrlTypeChange
 		} = this.props;
@@ -54,6 +55,9 @@ class Url extends Component {
 									autoFocus
 									label="URL"
 									id="github-url"
+									defaultValue={url}
+									error={isUrlInvalid}
+									onChange={e => handleUrlChange(e.target.value)}
 									InputProps={{
 										startAdornment: (
 											<InputAdornment variant="filled" position="start">
@@ -61,8 +65,6 @@ class Url extends Component {
 											</InputAdornment>
 										)
 									}}
-									value={url}
-									onChange={e => handleUrlChange(e.target.value)}
 								/>
 							</Fade>
 						)}

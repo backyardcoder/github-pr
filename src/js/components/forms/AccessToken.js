@@ -2,25 +2,26 @@ import React from "react";
 
 import Grid from "@material-ui/core/Grid";
 import Fade from "@material-ui/core/Fade";
-import Slide from "@material-ui/core/Slide";
 import Paper from "@material-ui/core/Paper";
 import InfoIcon from "@material-ui/icons/Info";
-import Snackbar from "@material-ui/core/Snackbar";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
-	infoIcon: {
-		marginRight: `${theme.spacing.unit}px`
-	},
-	infoText: {
-		marginTop: `${theme.spacing.unit / 4}px`
+	infoContent: {
+		padding: `${theme.spacing.unit}px`,
+		margin: `${theme.spacing.unit / 4}px`
 	}
 });
 
 const AccessToken = props => {
-	const { error, accessToken, handleAccessTokenChange, classes } = props;
+	const {
+		classes,
+		accessToken,
+		isAccessTokenInvalid,
+		handleAccessTokenChange
+	} = props;
 
 	return (
 		<Grid container direction="column" spacing={16}>
@@ -37,34 +38,32 @@ const AccessToken = props => {
 				</Typography>
 			</Grid>
 			<Grid item>
+				<Paper className={classes.infoContent}>
+					<Grid container alignItems="center" justify="space-around">
+						<Grid item>
+							<InfoIcon color="action" fontSize="large" />
+						</Grid>
+						<Grid item>
+							<Typography variant="caption" color="textPrimary">
+								Token is saved in your browser storage.
+							</Typography>
+						</Grid>
+					</Grid>
+				</Paper>
+			</Grid>
+			<Grid item>
 				<Fade in timeout={400}>
 					<TextField
 						fullWidth
 						autoFocus
-						error={error}
-						value={accessToken}
 						label="Access Token"
 						id="github-access-token"
+						defaultValue={accessToken}
+						error={isAccessTokenInvalid}
 						onChange={e => handleAccessTokenChange(e.target.value)}
 					/>
 				</Fade>
 			</Grid>
-			<Slide direction="up" in timeout={300}>
-				<Snackbar
-					open
-					anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-					message={
-						<Grid container direction="row" justify="center">
-							<Grid item>
-								<InfoIcon className={classes.infoIcon} />
-							</Grid>
-							<Grid item className={classes.infoText}>
-								Token is saved in your browser storage.
-							</Grid>
-						</Grid>
-					}
-				/>
-			</Slide>
 		</Grid>
 	);
 };
