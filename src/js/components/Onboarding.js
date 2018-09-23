@@ -197,16 +197,16 @@ class Onboarding extends React.Component {
 	}
 
 	renderUserProfile() {
-		const { url, accessToken } = this.state;
+		const { url, accessToken, urlType } = this.state;
 		return (
 			<Step>
 				<StepLabel>Load Profile</StepLabel>
 				<StepContent>
 					<UserProfile
-						url={url}
 						accessToken={accessToken}
 						handleInvalidUrl={this.handleInvalidUrl}
 						handleInvalidAccessToken={this.handleInvalidAccessToken}
+						url={urlType === urlTypes.ENTERPRISE ? `${url}/api/v3` : url}
 					/>
 				</StepContent>
 			</Step>
