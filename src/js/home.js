@@ -4,10 +4,10 @@ import ReactDOM from "react-dom";
 import Home from "./components/Home";
 import Storage from "./data/Storage";
 
-Storage.getTokenInfo(results => {
+Storage.getAccountInfo(results => {
 	const { url, accessToken } = results;
 	ReactDOM.render(
-		<Home accessToken={accessToken} url={url} />,
+		<Home accessToen={accessToken} url={url} />,
 		document.getElementById("ext-app")
 	);
 });

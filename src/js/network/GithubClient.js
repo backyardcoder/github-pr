@@ -2,8 +2,8 @@ import poller from "./poller";
 import { GH_NOTIFICATION_POLLER } from "../constants/pollerTypes";
 
 export default class GithubClient {
-	constructor(accessToken, url = "api.github.com") {
-		this.url = `https://${url}/`;
+	constructor(accessToken, url) {
+		this.url = url;
 		this.accessToken = accessToken;
 	}
 

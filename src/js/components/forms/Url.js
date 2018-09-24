@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Fade from "@material-ui/core/Fade";
 import Grid from "@material-ui/core/Grid";
 import Radio from "@material-ui/core/Radio";
+import { isEmptyString } from "../../utils";
 import urlTypes from "../../constants/urlTypes";
 import TextField from "@material-ui/core/TextField";
 import { withStyles } from "@material-ui/core/styles";
@@ -18,15 +18,21 @@ const styles = theme => ({
 });
 
 class Url extends Component {
+	state = {
+		url: this.props.url || "",
+		urlType: this.props.urlType || urlTypes.PUBLIC
+	};
+
+	handleUrlChange = event => {
+		this.props.onUrlChange(event.target.value);
+	};
+
+	handleUrlTypeChange = event => {
+		this.props.onUrlTypeChange(event.target.value);
+	};
+
 	render() {
-		const {
-			url,
-			classes,
-			urlType,
-			isUrlInvalid,
-			handleUrlChange,
-			handleUrlTypeChange
-		} = this.props;
+		const { url, classes, urlType, isUrlInvalid } = this.props;
 		return (
 			<Grid container direction="column">
 				<Grid item>
@@ -35,7 +41,7 @@ class Url extends Component {
 							value={urlType}
 							name="accountType"
 							aria-label="Account Type"
-							onChange={e => handleUrlTypeChange(e.target.value)}
+							onChange={this.handleUrlTypeChange}
 						>
 							<FormControlLabel
 								value={PUBLIC}
@@ -49,24 +55,22 @@ class Url extends Component {
 							/>
 						</RadioGroup>
 						{urlType === ENTERPRISE && (
-							<Fade in timeout={400}>
-								<TextField
-									fullWidth
-									autoFocus
-									label="URL"
-									id="github-url"
-									defaultValue={url}
-									error={isUrlInvalid}
-									onChange={e => handleUrlChange(e.target.value)}
-									InputProps={{
-										startAdornment: (
-											<InputAdornment variant="filled" position="start">
-												https://
-											</InputAdornment>
-										)
-									}}
-								/>
-							</Fade>
+							<TextField
+								fullWidth
+								autoFocus
+								label="URL"
+								id="github-url"
+								defaultValue={url}
+								error={isUrlInvalid}
+								onChange={this.handleUrlChange}
+								InputProps={{
+									startAdornment: (
+										<InputAdornment variant="filled" position="start">
+											https://
+										</InputAdornment>
+									)
+								}}
+							/>
 						)}
 					</FormControl>
 				</Grid>

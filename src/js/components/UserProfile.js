@@ -1,13 +1,16 @@
+import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { isEmptyString } from "../utils";
+
+import Storage from "../data/Storage";
 import Grid from "@material-ui/core/Grid";
+import { getApiUrl } from "../network/url";
 import Avatar from "@material-ui/core/Avatar";
 import GithubClient from "../network/GithubClient";
 import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-const styles = theme => ({
+const styles = () => ({
 	profilePic: {
 		width: 60,
 		height: 60
@@ -15,33 +18,30 @@ const styles = theme => ({
 });
 
 class UserProfile extends Component {
-	constructor() {
-		super(...arguments);
-		this.state = {
-			user: null,
-			isLoading: true
-		};
-	}
+	static PropTypes = {
+		hasError: PropTypes.func.isRequired,
+		classes: PropTypes.shape({
+			profilePic: PropTypes.object.isRequired
+		}).isRequired
+	};
 
-	componentWillReceiveProps({ url, accessToken }) {
-		const ghClient = !isEmptyString(url)
-			? new GithubClient(accessToken, url)
-			: new GithubClient(accessToken);
+	state = {
+		user: null,
+		isLoading: true
+	};
 
-		ghClient.getUser((errResponse, response) => {
-			if (errResponse) {
-				const { status } = errResponse;
-				if (status === 401) {
-					return this.props.handleInvalidAccessToken();
+	componentWillMount() {
+		Storage.getAccountInfo(results => {
+			const { url, accessToken } = results;
+			const ghClient = new GithubClient(accessToken, url);
+
+			ghClient.getUser((errResponse, response) => {
+				if (errResponse) {
+					return this.props.hasError(errResponse);
 				}
 
-				return this.props.handleInvalidUrl();
-			}
-
-			response.json().then(user => {
-				this.setState({
-					user,
-					isLoading: false
+				response.json().then(user => {
+					this.setState({ user, isLoading: false });
 				});
 			});
 		});
