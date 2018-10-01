@@ -4,7 +4,7 @@ import { withStyles } from "@material-ui/core/styles";
 
 import UrlStep from "./Steps/Url";
 import AccessTokenStep from "./Steps/AccessToken";
-import LoadProfile from "./Steps/LoadProfile";
+import LoadNotifications from "./Steps/LoadNotifications";
 
 const styles = theme => ({
 	root: {
@@ -60,7 +60,7 @@ class Onboarding extends React.Component {
 	};
 
 	render() {
-		const { classes } = this.props;
+		const { classes, onSuccess } = this.props;
 		const { activeStep, isAccessTokenInvalid, isUrlInvalid } = this.state;
 
 		return (
@@ -81,8 +81,9 @@ class Onboarding extends React.Component {
 					isAccessTokenInvalid={isAccessTokenInvalid}
 					tryLoadingProfile={this.tryLoadingProfile}
 				/>
-				<LoadProfile
-					classes={this.props.classes}
+				<LoadNotifications
+					classes={classes}
+					onSuccess={onSuccess}
 					handleInvalidUrl={this.handleInvalidUrl}
 					handleInvalidAccessToken={this.handleInvalidAccessToken}
 				/>

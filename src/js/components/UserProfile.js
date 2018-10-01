@@ -3,7 +3,6 @@ import React, { Component } from "react";
 
 import Storage from "../data/Storage";
 import Grid from "@material-ui/core/Grid";
-import { getApiUrl } from "../network/url";
 import Avatar from "@material-ui/core/Avatar";
 import GithubClient from "../network/GithubClient";
 import { withStyles } from "@material-ui/core/styles";

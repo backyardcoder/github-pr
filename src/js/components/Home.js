@@ -6,6 +6,7 @@ import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
+import NotificationsList from "./Notifications/NotificationsList";
 
 const styles = theme => ({
 	root: {
@@ -18,8 +19,21 @@ const styles = theme => ({
 });
 
 class Home extends Component {
+	constructor() {
+		super(...arguments);
+		this.state = {
+			renderOnboarding:
+				isUndefined(this.props.accessToken) || isUndefined(this.props.url)
+		};
+	}
+
+	renderNotifications = () => {
+		this.setState({ renderOnboarding: false });
+	};
+
 	render() {
-		const { accessToken, url, classes } = this.props;
+		const { renderOnboarding } = this.state;
+		const { classes } = this.props;
 
 		return (
 			<Grid container direction="row" justify="center" alignItems="center">
@@ -29,10 +43,10 @@ class Home extends Component {
 					</Typography>
 				</AppBar>
 				<div className={classes.root}>
-					{isUndefined(accessToken) || isUndefined(url) ? (
-						<Onboarding />
+					{renderOnboarding ? (
+						<Onboarding onSuccess={this.renderNotifications} />
 					) : (
-						<div />
+						<NotificationsList />
 					)}
 				</div>
 			</Grid>
