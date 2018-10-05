@@ -21,7 +21,7 @@ class NotificationsFetcher extends PureComponent {
 				}
 
 				response.json().then(notifications => {
-					Storage.saveNotifications({ notifications }, () => {
+					Storage.saveNotifications(notifications, () => {
 						onSuccess();
 					});
 				});

@@ -1,12 +1,13 @@
 import { getApiUrl, getBaseUrl } from "../network/urls";
 
+const ChromeStorage = chrome.storage.sync;
+
 export const URL = "gh_url";
 export const API_URL = "gh_api_url";
 export const URL_TYPE = "gh_url_type";
 export const ACCESS_TOKEN = "gh_access_token";
 export const NOTIFICATIONS = "gh_notifications";
 export const RENDER_ONBOARDING = "gh_render_onboarding";
-const ChromeStorage = chrome.storage.sync;
 
 export default class Storage {
 	static get(data, callback) {
@@ -26,11 +27,11 @@ export default class Storage {
 		);
 	}
 
-	static saveAccessToken({ accessToken }, cb) {
+	static saveAccessToken(accessToken, cb) {
 		ChromeStorage.set({ [ACCESS_TOKEN]: accessToken }, cb);
 	}
 
-	static saveNotifications({ notifications }, cb = () => {}) {
+	static saveNotifications(notifications, cb = () => {}) {
 		ChromeStorage.set({ [NOTIFICATIONS]: notifications }, cb);
 	}
 
