@@ -39,7 +39,7 @@ class AccessToken extends Component {
 
 	handleNext = () => {
 		const { accessToken } = this.state;
-		Storage.saveAccessToken({ accessToken }, () => {
+		Storage.saveAccessToken(accessToken, () => {
 			const {
 				index,
 				changeStep,

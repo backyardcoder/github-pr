@@ -27,7 +27,7 @@ function startPolling(time) {
 					Storage.setRenderOnboarding(true);
 				}
 				response.json().then(notifications => {
-					Storage.saveNotifications({ notifications });
+					Storage.saveNotifications(notifications);
 				});
 			});
 		}
