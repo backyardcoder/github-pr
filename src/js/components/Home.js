@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 
 import Onboarding from "./Onboarding";
+import Storage from "../data/Storage";
 import { isUndefined } from "../utils";
 import Grid from "@material-ui/core/Grid";
 import AppBar from "@material-ui/core/AppBar";
+import messageTypes from "../constants/messageTypes";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
 import NotificationsList from "./Notifications/NotificationsList";
@@ -22,18 +24,28 @@ class Home extends Component {
 	constructor() {
 		super(...arguments);
 		this.state = {
-			renderOnboarding:
-				isUndefined(this.props.accessToken) || isUndefined(this.props.url)
+			renderOnboarding: this.shouldRenderOnboarding()
 		};
 	}
 
+	shouldRenderOnboarding = () => {
+		const { url, accessToken, renderOnboarding } = this.props;
+
+		return (
+			isUndefined(url) || isUndefined(accessToken) || Boolean(renderOnboarding)
+		);
+	};
+
 	renderNotifications = () => {
-		this.setState({ renderOnboarding: false });
+		this.setState({ renderOnboarding: false }, () => {
+			Storage.setRenderOnboarding(false);
+			chrome.runtime.sendMessage({ type: messageTypes.ONBOARDING_COMPLETE });
+		});
 	};
 
 	render() {
 		const { renderOnboarding } = this.state;
-		const { classes } = this.props;
+		const { classes, ...onboardingProps } = this.props;
 
 		return (
 			<Grid container direction="row" justify="center" alignItems="center">
@@ -44,7 +56,10 @@ class Home extends Component {
 				</AppBar>
 				<div className={classes.root}>
 					{renderOnboarding ? (
-						<Onboarding onSuccess={this.renderNotifications} />
+						<Onboarding
+							{...onboardingProps}
+							onSuccess={this.renderNotifications}
+						/>
 					) : (
 						<NotificationsList />
 					)}
