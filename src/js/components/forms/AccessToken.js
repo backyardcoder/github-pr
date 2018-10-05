@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 
 import Grid from "@material-ui/core/Grid";
-import Fade from "@material-ui/core/Fade";
-import Paper from "@material-ui/core/Paper";
-import InfoIcon from "@material-ui/icons/Info";
+import Button from "@material-ui/core/Button";
+import { getTokenUrl } from "../../network/urls";
 import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { withStyles } from "@material-ui/core/styles";
@@ -25,7 +24,7 @@ class AccessToken extends Component {
 	};
 
 	render() {
-		const { classes, accessToken, isAccessTokenInvalid } = this.props;
+		const { accessToken, isAccessTokenInvalid, url } = this.props;
 
 		return (
 			<Grid container direction="column" spacing={16}>
@@ -37,36 +36,29 @@ class AccessToken extends Component {
 				</Grid>
 				<Grid item>
 					<Typography>
-						Follow the steps here to create an access token with "notifications"
-						permission.
+						Check mark <strong>"notifications"</strong> while creating the
+						token. Token will be saved in your browser storage.
 					</Typography>
 				</Grid>
 				<Grid item>
-					<Paper className={classes.infoContent}>
-						<Grid container alignItems="center" justify="space-around">
-							<Grid item>
-								<InfoIcon color="action" fontSize="large" />
-							</Grid>
-							<Grid item>
-								<Typography variant="caption" color="textPrimary">
-									Token is saved in your browser storage.
-								</Typography>
-							</Grid>
-						</Grid>
-					</Paper>
+					<Button
+						color="primary"
+						target="_blank"
+						variant="outlined"
+						href={getTokenUrl(url)}
+					>
+						Create Token
+					</Button>
 				</Grid>
 				<Grid item>
-					<Fade in timeout={400}>
-						<TextField
-							fullWidth
-							autoFocus
-							label="Access Token"
-							id="github-access-token"
-							defaultValue={accessToken}
-							error={isAccessTokenInvalid}
-							onChange={this.handleAccessTokenChange}
-						/>
-					</Fade>
+					<TextField
+						fullWidth
+						label="Access Token"
+						id="github-access-token"
+						defaultValue={accessToken}
+						error={isAccessTokenInvalid}
+						onChange={this.handleAccessTokenChange}
+					/>
 				</Grid>
 			</Grid>
 		);

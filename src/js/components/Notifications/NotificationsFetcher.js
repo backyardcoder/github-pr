@@ -12,9 +12,8 @@ class NotificationsFetcher extends PureComponent {
 
 	componentWillMount() {
 		const { onSuccess, hasError } = this.props;
-		Storage.getAccountInfo(results => {
-			const { url, accessToken } = results;
-			const ghClient = new GithubClient(accessToken, url);
+		Storage.getAccountInfo(({ apiUrl, accessToken }) => {
+			const ghClient = new GithubClient(accessToken, apiUrl);
 
 			ghClient.getNotifications((err, response) => {
 				if (err) {

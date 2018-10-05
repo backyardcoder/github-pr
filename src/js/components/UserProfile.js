@@ -30,9 +30,8 @@ class UserProfile extends Component {
 	};
 
 	componentWillMount() {
-		Storage.getAccountInfo(results => {
-			const { url, accessToken } = results;
-			const ghClient = new GithubClient(accessToken, url);
+		Storage.getAccountInfo(({ apiUrl, accessToken }) => {
+			const ghClient = new GithubClient(accessToken, apiUrl);
 
 			ghClient.getUser((errResponse, response) => {
 				if (errResponse) {

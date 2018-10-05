@@ -4,13 +4,13 @@ import React, { Component } from "react";
 import UrlForm from "../../forms/Url";
 import Step from "@material-ui/core/Step";
 import Storage from "../../../data/Storage";
+import { isUndefined } from "../../../utils";
 import Button from "@material-ui/core/Button";
 import { isEmptyString } from "../../../utils";
 import urlTypes from "../../../constants/urlTypes";
 import StepLabel from "@material-ui/core/StepLabel";
 import Typography from "@material-ui/core/Typography";
 import StepContent from "@material-ui/core/StepContent";
-import { getApiUrl } from "../../../network/url";
 
 class Url extends Component {
 	static propTypes = {
@@ -29,6 +29,15 @@ class Url extends Component {
 		urlType: urlTypes.PUBLIC
 	};
 
+	componentWillMount() {
+		Storage.getUrlInfo(({ url, urlType }) => {
+			this.setState({
+				urlType: isUndefined(urlType) ? urlTypes.PUBLIC : urlType,
+				url: isUndefined(url) || urlType === urlTypes.PUBLIC ? "" : url
+			});
+		});
+	}
+
 	handleUrlChange = newVal => {
 		this.setState({ url: newVal, disableNext: isEmptyString(newVal) });
 	};
@@ -42,7 +51,7 @@ class Url extends Component {
 
 	handleButtonClick = () => {
 		const { url, urlType } = this.state;
-		Storage.saveUrlInfo({ url: getApiUrl(urlType, url), urlType }, () => {
+		Storage.saveUrlInfo({ url, urlType }, () => {
 			const { changeStep, isUrlInvalid, index, tryLoadingProfile } = this.props;
 			return isUrlInvalid ? tryLoadingProfile() : changeStep(index + 1);
 		});

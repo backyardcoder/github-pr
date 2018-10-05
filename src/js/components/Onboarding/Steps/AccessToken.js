@@ -21,9 +21,16 @@ class AccessToken extends Component {
 	};
 
 	state = {
+		url: "",
 		accessToken: "",
 		disableNext: true
 	};
+
+	componentWillMount() {
+		Storage.getUrlInfo(({ url }) => {
+			this.setState({ url });
+		});
+	}
 
 	handleBack = () => {
 		const { index, changeStep } = this.props;
@@ -62,7 +69,7 @@ class AccessToken extends Component {
 	}
 
 	render() {
-		const { accessToken, disableNext } = this.state;
+		const { accessToken, disableNext, url } = this.state;
 		const { classes, isAccessTokenInvalid, ...stepProps } = this.props;
 
 		return (
@@ -70,6 +77,7 @@ class AccessToken extends Component {
 				{this.renderLabel()}
 				<StepContent>
 					<AccessTokenForm
+						url={url}
 						accessToken={accessToken}
 						isAccessTokenInvalid={isAccessTokenInvalid}
 						onTokenChange={this.handleAccessTokenChange}

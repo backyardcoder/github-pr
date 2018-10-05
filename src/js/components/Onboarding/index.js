@@ -3,6 +3,8 @@ import Stepper from "@material-ui/core/Stepper";
 import { withStyles } from "@material-ui/core/styles";
 
 import UrlStep from "./Steps/Url";
+import Storage from "../../data/Storage";
+import { isUndefined } from "../../utils";
 import AccessTokenStep from "./Steps/AccessToken";
 import LoadNotifications from "./Steps/LoadNotifications";
 
@@ -23,11 +25,22 @@ class Onboarding extends React.Component {
 	constructor() {
 		super(...arguments);
 		this.state = {
-			activeStep: 0,
 			isUrlInvalid: false,
-			isAccessTokenInvalid: false
+			isAccessTokenInvalid: false,
+			activeStep: this.getActiveStep()
 		};
 	}
+
+	getActiveStep = () => {
+		const { url, accessToken } = this.props;
+		if (isUndefined(url)) {
+			return 0;
+		} else if (isUndefined(accessToken)) {
+			return 1;
+		}
+
+		return 2;
+	};
 
 	changeStep = nextStep => {
 		this.setState({
@@ -36,19 +49,29 @@ class Onboarding extends React.Component {
 	};
 
 	handleInvalidUrl = () => {
-		this.setState({
-			activeStep: 0,
-			isUrlInvalid: true,
-			isAccessTokenInvalid: false
-		});
+		this.setState(
+			{
+				activeStep: 0,
+				isUrlInvalid: true,
+				isAccessTokenInvalid: false
+			},
+			() => {
+				Storage.setRenderOnboarding(true);
+			}
+		);
 	};
 
 	handleInvalidAccessToken = () => {
-		this.setState({
-			activeStep: 1,
-			isUrlInvalid: false,
-			isAccessTokenInvalid: true
-		});
+		this.setState(
+			{
+				activeStep: 1,
+				isUrlInvalid: false,
+				isAccessTokenInvalid: true
+			},
+			() => {
+				Storage.setRenderOnboarding(true);
+			}
+		);
 	};
 
 	tryLoadingProfile = () => {
